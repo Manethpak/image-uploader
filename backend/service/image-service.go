@@ -29,7 +29,7 @@ func (s *imageService) SaveImage(file multipart.File, header *multipart.FileHead
 	originalFileName := strings.TrimSuffix(filepath.Base(header.Filename), filepath.Ext(header.Filename))
 	now := time.Now()
 	filename := strings.ReplaceAll(strings.ToLower(originalFileName), " ", "-") + "-" + fmt.Sprintf("%v", now.Unix()) + fileExt
-	filePath := "http://localhost:8000/public/" + filename
+	filePath := fmt.Sprintf("%s:%s/public/%s", os.Getenv("URL"), os.Getenv("PORT"), filename)
 
 	out, err := os.Create("public/" + filename)
 	if err != nil {
