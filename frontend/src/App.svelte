@@ -1,46 +1,59 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
+  import ErrorToast from "./lib/ErrorToast.svelte";
+  import Loading from "./lib/Loading.svelte";
+  import Upload from "./lib/Upload.svelte";
+  import ViewUpload from "./lib/ViewUpload.svelte";
+
+  let loading = false;
+  let uploaded = false;
+  let error = false;
+
+  let urlPath = "";
+
+  async function handleUpload(e: CustomEvent) {
+    loading = true;
+    const file = e.detail.file as File;
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+    try {
+      const response = await fetch("/api/image", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      urlPath = result.path;
+      uploaded = true;
+    } catch (err) {
+      error = true;
+    } finally {
+      setTimeout(() => {
+        loading = false;
+      }, 2000);
+    }
+  }
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer"> 
-      <img src="/vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer"> 
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+<main class="h-screen w-full bg-neutral-200 grid place-content-center">
+  {#if loading}
+    <Loading />
+  {:else if uploaded}
+    <ViewUpload {urlPath} on:home={() => (uploaded = false)} />
+  {:else}
+    <Upload on:upload={handleUpload} />
+  {/if}
 </main>
 
-<style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
-</style>
+{#if error}
+  <ErrorToast on:dismiss={() => (error = false)} />
+{/if}
+
+<footer class="flex justify-center py-4 text-gray-600 fixed bottom-0 inset-x-0">
+  <p>
+    Created by <a
+      href="https://github.com/Manethpak"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-gray-700 underline">Manethpak</a
+    > - devChallenge.io
+  </p>
+</footer>
