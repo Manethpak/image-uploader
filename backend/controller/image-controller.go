@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"net/http"
-
 	"image-uploader/service"
+	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,24 +23,26 @@ func NewImageController(service service.ImageService) ImageController {
 }
 
 func (c *controller) UploadImage(ctx *gin.Context) {
-	file, header, err := ctx.Request.FormFile("file")
-
+	file, err := ctx.FormFile("file")
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "File not found",
-		})
+		log.Fatal(err)
+	}
+	log.Println(file.Filename)
+
+	fileoutput := os.Getenv("URL")
+	if os.Getenv("GIN_MODE") == "release" {
+		fileoutput += "/public/" + file.Filename
+	} else {
+		fileoutput += ":" + os.Getenv("PORT") + "/public/" + file.Filename
 	}
 
-	outputPath, error := c.service.SaveImage(file, header)
-
-	if error != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "Failed to upload image to the server",
-		})
+	err = ctx.SaveUploadedFile(file, "public/"+file.Filename)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	ctx.JSON(http.StatusAccepted, gin.H{
-		"message": "Image uploaded successfully",
-		"path":    outputPath,
+	ctx.JSON(200, gin.H{
+		"message": "success",
+		"output":  fileoutput,
 	})
 }
