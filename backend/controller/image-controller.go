@@ -36,6 +36,11 @@ func (c *controller) UploadImage(ctx *gin.Context) {
 		fileoutput += ":" + os.Getenv("PORT") + "/public/" + file.Filename
 	}
 
+	// check current directory if there a folder named public, if not create one
+	if _, err := os.Stat("public"); os.IsNotExist(err) {
+		os.Mkdir("public", 0755)
+	}
+
 	err = ctx.SaveUploadedFile(file, "public/"+file.Filename)
 	if err != nil {
 		log.Fatal(err)
