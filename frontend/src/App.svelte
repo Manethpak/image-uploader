@@ -21,7 +21,7 @@
         body: formData,
       });
       const result = await response.json();
-      urlPath = result.path;
+      urlPath = result.output;
       uploaded = true;
     } catch (err) {
       error = true;
