@@ -3,14 +3,15 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd());
-
   return {
     plugins: [svelte()],
     server: {
       proxy: {
         "/api": {
-          target: env.VITE_API_URL,
+          target:
+            mode === "development"
+              ? "http://localhost:3000"
+              : "https://go-server-p05m.onrender.com",
           changeOrigin: true,
         },
       },
