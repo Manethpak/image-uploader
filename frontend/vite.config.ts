@@ -8,10 +8,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target:
-            mode === "development"
-              ? "http://localhost:3000"
-              : "https://go-server-p05m.onrender.com",
+          target: "https://go-server-p05m.onrender.com",
           changeOrigin: true,
         },
       },
