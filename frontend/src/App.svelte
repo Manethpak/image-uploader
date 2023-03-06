@@ -16,7 +16,12 @@
     const formData = new FormData();
     formData.append("file", file, file.name);
     try {
-      const response = await fetch("/api/image", {
+      // Github pages cannot make proxy request
+      const path =
+        import.meta.env.MODE === "development"
+          ? "http://localhost:3000/api/image"
+          : "https://go-server-p05m.onrender.com/api/image";
+      const response = await fetch(path, {
         method: "POST",
         body: formData,
       });
