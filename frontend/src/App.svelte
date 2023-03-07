@@ -19,7 +19,7 @@
       // Github pages cannot make proxy request
       const path =
         import.meta.env.MODE === "development"
-          ? "http://localhost:3000/api/image"
+          ? "http://localhost:8080/api/image"
           : "https://go-server-p05m.onrender.com/api/image";
       const response = await fetch(path, {
         method: "POST",
