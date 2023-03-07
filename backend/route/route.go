@@ -1,6 +1,7 @@
 package route
 
 import (
+	"image-uploader/middleware"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,8 @@ func SetupRoutes(server *gin.Engine) {
 			"message": "pong",
 		})
 	})
+
+	api.Use(middleware.CORSMiddleware())
 
 	addImageRoutes(api)
 
