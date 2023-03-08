@@ -29,7 +29,13 @@ func (s *imageService) SaveImage(file multipart.File, header *multipart.FileHead
 	originalFileName := strings.TrimSuffix(filepath.Base(header.Filename), filepath.Ext(header.Filename))
 	now := time.Now()
 	filename := strings.ReplaceAll(strings.ToLower(originalFileName), " ", "-") + "-" + fmt.Sprintf("%v", now.Unix()) + fileExt
-	filePath := fmt.Sprintf("%s:%s/public/%s", os.Getenv("URL"), os.Getenv("PORT"), filename)
+
+	fileoutput := os.Getenv("URL")
+	if os.Getenv("GIN_MODE") == "release" {
+		fileoutput += "/public/" + filename
+	} else {
+		fileoutput += ":" + os.Getenv("PORT") + "/public/" + filename
+	}
 
 	out, err := os.Create("public/" + filename)
 	if err != nil {
@@ -43,5 +49,5 @@ func (s *imageService) SaveImage(file multipart.File, header *multipart.FileHead
 		return "", err
 	}
 
-	return filePath, nil
+	return fileoutput, nil
 }

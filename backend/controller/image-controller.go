@@ -3,7 +3,6 @@ package controller
 import (
 	"image-uploader/service"
 	"log"
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,31 +22,26 @@ func NewImageController(service service.ImageService) ImageController {
 }
 
 func (c *controller) UploadImage(ctx *gin.Context) {
-	file, err := ctx.FormFile("file")
+	file, header, err := ctx.Request.FormFile("file")
 	if err != nil {
 		log.Fatal(err)
-	}
-	log.Println(file.Filename)
-
-	fileoutput := os.Getenv("URL")
-	if os.Getenv("GIN_MODE") == "release" {
-		fileoutput += "/public/" + file.Filename
-	} else {
-		fileoutput += ":" + os.Getenv("PORT") + "/public/" + file.Filename
+		ctx.JSON(400, gin.H{
+			"message": "File not found",
+			"output":  nil,
+		})
 	}
 
-	// check current directory if there a folder named public, if not create one
-	if _, err := os.Stat("public"); os.IsNotExist(err) {
-		os.Mkdir("public", 0755)
-	}
-
-	err = ctx.SaveUploadedFile(file, "public/"+file.Filename)
+	path, err := c.service.SaveImage(file, header)
 	if err != nil {
 		log.Fatal(err)
+		ctx.JSON(400, gin.H{
+			"message": "Error while uploading file",
+			"output":  nil,
+		})
 	}
 
 	ctx.JSON(200, gin.H{
 		"message": "success",
-		"output":  fileoutput,
+		"output":  path,
 	})
 }

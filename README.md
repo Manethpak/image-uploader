@@ -1,6 +1,4 @@
-<!-- Please update value in the {}  -->
-
-<h1 align="center">ImageUploader</h1>
+<h1 align="center">Image Uploader</h1>
 
 <div align="center">
    Solution for a challenge from  <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.
@@ -12,7 +10,7 @@
       Demo
     </a>
     <span> | </span>
-    <a href="https://{your-url-to-the-solution}">
+    <a href="https://devchallenges.io/solutions/hN5CuVaxEoCyE6vJx2og">
       Solution
     </a>
     <span> | </span>
@@ -37,23 +35,20 @@
 
 ## Overview
 
-![screenshot](https://user-images.githubusercontent.com/16707738/92399059-5716eb00-f132-11ea-8b14-bcacdc8ec97b.png)
+![screenshot](https://go-server-p05m.onrender.com/public/image-uploader.png)
 
-Introduce your projects by taking a screenshot or a gif. Try to tell visitors a story about your project by answering:
+You can view my demo and test my demo [here](https://image-uploader.manethpak.live).
 
-- Where can I see your demo?
-- What was your experience?
-- What have you learned/improved?
-- Your wisdom? :)
+I have a lot of fun and face a lot of new challenges while building out this project. For the frontend, I've chosen svelte because it one of the framework that I've been trying to test out for a long while and it was incredibly fun and easy to use, rather than react and vue which I specialize on. I've chosen tailwind for the styling to simplify and compensate the challenge when I'm trying to learn svelte. As for the api, I've chose go and gin since it also one of the language and framework I've been keening to learn and try. With this project I was able to learn a lot of stuff regarding svelte and go. Beside the language and technology, I get to know render and learn how to use github workflow to automatically build my frontend to github page. Overall, this challenge has enable me to try out new language and technology that I never get to use in my day to day work.
 
-### Built With
+## Built With
 
-## Language
+### Language
 
 - [Go](https://golang.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 
-## Framework & Library
+### Framework & Library
 
 - [Svelte](https://svelte.dev/)
 - [Tailwind](https://tailwindcss.com/)
@@ -77,7 +72,7 @@ To clone and run this application, you'll need [Git](https://git-scm.com) [Node.
 $ git clone https://github.com/Manethpak/image-uploader.git
 ```
 
-# Running the backend
+# Running the backend api
 
 ```bash
 # cd into backend directory
