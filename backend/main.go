@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -12,7 +13,9 @@ import (
 func init() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Printf("Error loading .env file: %v", err)
+		log.Print("App running with default environment variables.")
+		gin.SetMode(gin.DebugMode)
 	}
 
 	if _, err := os.Stat("public"); os.IsNotExist(err) {
@@ -23,9 +26,10 @@ func init() {
 func main() {
 	server := gin.Default()
 
-	route.SetupRoutes(server)
+	server.Use(static.Serve("/public", static.LocalFile("./public", true)))
+	server.Use(static.Serve("/", static.LocalFile("../frontend/dist", true)))
 
-	server.Static("/public", "./public")
+	route.SetupRoutes(server)
 
 	server.Run()
 }

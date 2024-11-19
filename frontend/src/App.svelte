@@ -16,12 +16,7 @@
     const formData = new FormData();
     formData.append("file", file, file.name);
     try {
-      // Github pages cannot make proxy request
-      const path =
-        import.meta.env.MODE === "development"
-          ? "http://localhost:8080/api/image"
-          : "https://go-server-p05m.onrender.com/api/image";
-      const response = await fetch(path, {
+      const response = await fetch("http://localhost:8080/api/image", {
         method: "POST",
         body: formData,
       });
@@ -59,6 +54,6 @@
       target="_blank"
       rel="noopener noreferrer"
       class="text-gray-700 underline">Manethpak</a
-    > - devChallenge.io
+    >
   </p>
 </footer>

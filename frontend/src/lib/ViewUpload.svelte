@@ -5,13 +5,14 @@
   import { fade, fly } from "svelte/transition";
 
   export let urlPath = "";
+  $: finalUrl = window.location.href + urlPath;
 
   let toast = false;
 
   const dispatch = createEventDispatcher();
 
   function handleCopy() {
-    navigator.clipboard.writeText(urlPath);
+    navigator.clipboard.writeText(finalUrl);
     toast = true;
     setTimeout(() => {
       toast = false;
@@ -40,13 +41,13 @@
       Upload Successfully!
     </h1>
     <div class="max-w-[30rem] max-h-[20rem] overflow-hidden rounded-xl">
-      <img src={urlPath} alt="uploaded" />
+      <img src={finalUrl} alt="uploaded" />
     </div>
     <div
       class="w-full bg-gray-100 rounded-xl border-2 max-w-[30rem] flex items-center justify-between gap-1"
     >
       <p class="truncate text-sm ml-4">
-        {urlPath}
+        {finalUrl}
       </p>
       <button
         class="rounded-xl bg-blue-500 text-white py-2 px-4"

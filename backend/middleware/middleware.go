@@ -1,6 +1,10 @@
 package middleware
 
-import "github.com/gin-gonic/gin"
+import (
+	"strings"
+
+	"github.com/gin-gonic/gin"
+)
 
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -14,6 +18,13 @@ func CORSMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		c.Next()
+	}
+}
+
+func URLRewriteMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Request.URL.Path = strings.Replace(c.Request.URL.Path, "/assets", "/app/assets", 1)
 		c.Next()
 	}
 }

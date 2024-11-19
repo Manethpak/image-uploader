@@ -1,14 +1,13 @@
 package service
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"mime/multipart"
 	"os"
 	"path/filepath"
-	"strings"
-	"time"
+
+	gonanoid "github.com/matoous/go-nanoid/v2"
 )
 
 type ImageService interface {
@@ -26,18 +25,16 @@ func NewImageService() ImageService {
 func (s *imageService) SaveImage(file multipart.File, header *multipart.FileHeader) (string, error) {
 	// write image to disk
 	fileExt := filepath.Ext(header.Filename)
-	originalFileName := strings.TrimSuffix(filepath.Base(header.Filename), filepath.Ext(header.Filename))
-	now := time.Now()
-	filename := strings.ReplaceAll(strings.ToLower(originalFileName), " ", "-") + "-" + fmt.Sprintf("%v", now.Unix()) + fileExt
 
-	fileoutput := os.Getenv("URL")
-	if os.Getenv("GIN_MODE") == "release" {
-		fileoutput += "/public/" + filename
-	} else {
-		fileoutput += ":" + os.Getenv("PORT") + "/public/" + filename
+	id, err := gonanoid.New()
+	if err != nil {
+		log.Fatal(err)
+		return "", err
 	}
 
-	out, err := os.Create("public/" + filename)
+	fileoutput := "public/" + id + fileExt
+
+	out, err := os.Create(fileoutput)
 	if err != nil {
 		log.Fatal(err)
 		return "", err
