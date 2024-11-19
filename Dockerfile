@@ -22,16 +22,14 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o server .
 
 # Final stage
 FROM alpine:3.18
-WORKDIR /app
-
-# Install certificates for HTTPS
-RUN apk --no-cache add ca-certificates
+WORKDIR /app/backend
 
 # Copy built artifacts
 COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
-COPY --from=backend-builder /app/backend/server /app/server
+COPY --from=backend-builder /app/backend/server /app/backend/server
 
-ARG GIN_MODE=release
+ENV GIN_MODE=release
+ENV PORT=8080
 
 # Expose port
 EXPOSE 8080
