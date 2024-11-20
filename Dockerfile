@@ -9,6 +9,8 @@ RUN yarn
 COPY frontend/ ./
 RUN yarn build
 
+ENV VITE_API_URL=https://uploader.manethpak.com
+
 # Build stage for Go backend
 FROM golang:1.19.13-bookworm AS backend-builder
 WORKDIR /app/backend
