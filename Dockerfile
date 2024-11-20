@@ -34,5 +34,7 @@ ENV PORT=8080
 # Expose port
 EXPOSE 8080
 
+VOLUME [ "./public" ]
+
 # Run the server
 CMD ["./server"]
