@@ -16,7 +16,7 @@
     const formData = new FormData();
     formData.append("file", file, file.name);
     try {
-      const response = await fetch("http://localhost:8080/api/image", {
+      const response = await fetch("/api/image", {
         method: "POST",
         body: formData,
       });
