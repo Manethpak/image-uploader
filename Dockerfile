@@ -9,7 +9,6 @@ RUN yarn
 COPY frontend/ ./
 RUN yarn build
 
-ENV VITE_API_URL=https://uploader.manethpak.com
 
 # Build stage for Go backend
 FROM golang:1.19.13-bookworm AS backend-builder
@@ -21,6 +20,7 @@ RUN go mod download
 
 COPY backend/ ./
 RUN CGO_ENABLED=0 GOOS=linux go build -o server .
+
 
 # Final stage
 FROM alpine:3.18

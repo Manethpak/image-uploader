@@ -16,13 +16,10 @@
     const formData = new FormData();
     formData.append("file", file, file.name);
     try {
-      const response = await fetch(
-        import.meta.env.VITE_API_URL + "/api/image",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch("/api/image", {
+        method: "POST",
+        body: formData,
+      });
       const result = await response.json();
       urlPath = result.output;
       uploaded = true;
