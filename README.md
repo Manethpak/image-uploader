@@ -19,7 +19,7 @@
 
 ## Overview
 
-![screenshot]()
+![screenshot](https://uploader.manethpak.com/public/9EBu22irK6jQZCB0ZzkYH.png)
 
 A free lightweight, minimal, image hosting and sharing service. Built with Go and Svelte. 
 
