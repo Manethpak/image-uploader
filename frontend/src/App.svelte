@@ -15,8 +15,9 @@
     const file = e.detail.file as File;
     const formData = new FormData();
     formData.append("file", file, file.name);
+    const baseUrl = window.location.origin + "/api/image";
     try {
-      const response = await fetch("/api/image", {
+      const response = await fetch(baseUrl, {
         method: "POST",
         body: formData,
       });
